@@ -1,0 +1,40 @@
+<header class="bg-white shadow-md">
+  <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+    <h1 class="text-xl font-bold text-gray-800">MyApp</h1>
+    <nav class="space-x-4 flex items-center">
+      <a routerLink="/" class="text-gray-600 hover:text-blue-600">Home</a>
+      <a routerLink="/about" class="text-gray-600 hover:text-blue-600">About</a>
+      <a routerLink="/contact" class="text-gray-600 hover:text-blue-600"
+        >Contact</a
+      >
+      <ng-container *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="text-gray-600 hover:text-blue-600"
+          >Login</a
+        >
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <a routerLink="/employee" class="text-gray-600 hover:text-blue-600"
+          >Employe List</a
+        >
+        &nbsp;
+        <div class="relative group inline-block">
+          <button class="text-gray-600 hover:text-blue-600 font-medium">
+            {{ email }}
+            <span class="ml-1">&#x25BC;</span>
+          </button>
+
+          <div
+            class="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <button
+              (click)="logout()"
+              class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,109 @@
+<div class="overflow-x-auto mt-6">
+  <div class="mb-4 flex flex-wrap gap-4 items-center">
+    <input
+      type="text"
+      [(ngModel)]="filterText"
+      (input)="applyFilter()"
+      placeholder="Search by name, username, or email"
+      class="px-3 py-2 border rounded w-64 text-sm"
+    />
+  </div>
+  <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Username
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          First Name
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Last Name
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Email
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Birth Date
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Basic Salary
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Status
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Group
+        </th>
+        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of pagedEmployees" class="border-t">
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.username }}</td>
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.firstName }}</td>
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.lastName }}</td>
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.email }}</td>
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.birthDate }}</td>
+        <td class="px-4 py-2 text-sm text-gray-600">
+          {{ emp.basicSalary }}
+        </td>
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.status }}</td>
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.group }}</td>
+        <td class="px-4 py-2 text-sm text-gray-600">{{ emp.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="flex justify-center items-center mt-4 space-x-2">
+    <button
+      class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
+      [disabled]="currentPage === 1"
+      (click)="setPage(1)"
+    >
+      First
+    </button>
+    <button
+      class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+      [disabled]="currentPage === 1"
+      (click)="setPage(currentPage - 1)"
+    >
+      Prev
+    </button>
+    <span class="px-3 py-1">{{ currentPage }} / {{ totalPages }}</span>
+    <button
+      class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+      [disabled]="currentPage === totalPages"
+      (click)="setPage(currentPage + 1)"
+    >
+      Next
+    </button>
+    <button
+      class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
+      [disabled]="currentPage === totalPages"
+      (click)="setPage(totalPages)"
+    >
+      Last
+    </button>
+    <div class="flex justify-between items-center mt-4 mb-2">
+      <div></div>
+      <div>
+        <label for="pageSize" class="mr-2 text-sm text-gray-700"
+          >Rows per page:</label
+        >
+        <select
+          id="pageSize"
+          [(ngModel)]="pageSize"
+          (change)="onPageSizeChange()"
+          class="px-2 py-1 border rounded text-sm"
+        >
+          <option *ngFor="let size of [5, 10, 20, 50]" [value]="size">
+            {{ size }}
+          </option>
+        </select>
+        <!-- <p>berapa ?  {{ pagedEmployees.length }} rows</p> -->
+      </div>
+    </div>
+  </div>
+</div>
