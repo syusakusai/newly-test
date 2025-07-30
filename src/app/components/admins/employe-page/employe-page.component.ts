@@ -10,13 +10,31 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './employe-page.component.css',
 })
 export class EmployePageComponent {
+  showAddModal = false;
+
+  newEmployee: Employee = {
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    birthDate: '',
+    basicSalary: 0,
+    status: '',
+    group: '',
+    description: '',
+  };
   employees: Employee[] = [];
   filteredEmployees: Employee[] = [];
   pagedEmployees: Employee[] = [];
-  filterText = '';
+  filterUsername: string = '';
+  filterFirstName: string = '';
   currentPage = 1;
   pageSize = 10;
   totalPages = 1;
+
+  deleteMessage: string = '';
+  showDetailModal = false;
+  selectedEmployee: Employee | null = null;
 
   constructor(private http: HttpClient) {
     this.http
@@ -32,13 +50,12 @@ export class EmployePageComponent {
   }
 
   applyFilter() {
-    const text = this.filterText.toLowerCase();
+    const username = this.filterUsername.toLowerCase();
+    const firstName = this.filterFirstName.toLowerCase();
     this.filteredEmployees = this.employees.filter(
       (emp) =>
-        emp.username.toLowerCase().includes(text) ||
-        emp.firstName.toLowerCase().includes(text) ||
-        emp.lastName.toLowerCase().includes(text) ||
-        emp.email.toLowerCase().includes(text)
+        emp.username.toLowerCase().includes(username) &&
+        emp.firstName.toLowerCase().includes(firstName)
     );
     this.totalPages = Math.ceil(this.filteredEmployees.length / this.pageSize);
     this.setPage(1);
@@ -58,5 +75,46 @@ export class EmployePageComponent {
     this.pageSize = Number(this.pageSize);
     this.totalPages = Math.ceil(this.filteredEmployees.length / this.pageSize);
     this.setPage(1);
+  }
+
+  addEmployee() {
+    if (
+      this.newEmployee.username &&
+      this.newEmployee.firstName &&
+      this.newEmployee.lastName &&
+      this.newEmployee.email &&
+      this.newEmployee.birthDate &&
+      this.newEmployee.basicSalary &&
+      this.newEmployee.status &&
+      this.newEmployee.group
+    ) {
+      this.employees.push({ ...this.newEmployee });
+      this.applyFilter();
+      this.newEmployee = {
+        username: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        birthDate: '',
+        basicSalary: 0,
+        status: '',
+        group: '',
+        description: '',
+      };
+      this.showAddModal = false;
+    }
+  }
+  deleteEmployee(emp: Employee) {
+    this.employees = this.employees.filter((e) => e !== emp);
+    this.applyFilter();
+    this.deleteMessage = 'Delete is successful';
+    setTimeout(() => {
+      this.deleteMessage = '';
+    }, 2000); // Hide after 2 seconds
+  }
+
+  openDetailModal(emp: Employee) {
+    this.selectedEmployee = emp;
+    this.showDetailModal = true;
   }
 }
