@@ -3,14 +3,17 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Employee } from '../../../models/employee.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @Component({
   selector: 'app-employe-page',
-  imports: [HttpClientModule, CommonModule, FormsModule],
+  imports: [HttpClientModule, CommonModule, FormsModule, NgSelectModule],
   templateUrl: './employe-page.component.html',
   styleUrl: './employe-page.component.css',
 })
 export class EmployePageComponent {
   showAddModal = false;
+  today: string = new Date().toISOString().split('T')[0];
 
   newEmployee: Employee = {
     username: '',
@@ -36,6 +39,8 @@ export class EmployePageComponent {
   showDetailModal = false;
   selectedEmployee: Employee | null = null;
 
+  group: any;
+
   constructor(private http: HttpClient) {
     this.http
       .get<{ employee: Employee[] }>('assets/data/employee_dummy_data.json')
@@ -46,6 +51,13 @@ export class EmployePageComponent {
           this.filteredEmployees.length / this.pageSize
         );
         this.setPage(1);
+      });
+
+    this.http
+      .get<{ employeeDepartments: any[] }>('assets/data/group_dummy_data.json')
+      .subscribe((data) => {
+        this.group = data.employeeDepartments;
+        console.log(this.group);
       });
   }
 
@@ -88,6 +100,10 @@ export class EmployePageComponent {
       this.newEmployee.status &&
       this.newEmployee.group
     ) {
+      if (this.newEmployee.birthDate > this.today) {
+        alert('Birth date cannot be greater than today.');
+        return;
+      }
       this.employees.push({ ...this.newEmployee });
       this.applyFilter();
       this.newEmployee = {

@@ -214,12 +214,21 @@
         name="email"
         placeholder="Email"
         required
+        email
+        #emailModel="ngModel"
         class="px-3 py-2 border rounded w-40 text-sm"
       />
+      <div
+        *ngIf="emailModel.invalid && emailModel.touched"
+        class="text-xs text-red-600 mt-1"
+      >
+        Please enter a valid email address.
+      </div>
       <input
         type="date"
         [(ngModel)]="newEmployee.birthDate"
         name="birthDate"
+        [max]="today"
         required
         class="px-3 py-2 border rounded w-40 text-sm"
       />
@@ -239,14 +248,17 @@
         required
         class="px-3 py-2 border rounded w-40 text-sm"
       />
-      <input
-        type="text"
+      <ng-select
+        [items]="group"
+        bindLabel="department"
+        bindValue="department"
         [(ngModel)]="newEmployee.group"
         name="group"
-        placeholder="Group"
+        placeholder="Select Group"
+        [searchable]="true"
         required
-        class="px-3 py-2 border rounded w-40 text-sm"
-      />
+        class="w-40"
+      ></ng-select>
       <input
         type="text"
         [(ngModel)]="newEmployee.description"

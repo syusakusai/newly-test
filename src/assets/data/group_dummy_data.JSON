@@ -1,0 +1,14 @@
+{
+  "employeeDepartments": [
+    { "department": "Engineering" },
+    { "department": "Human Resources" },
+    { "department": "Administration" },
+    { "department": "Information Technology" },
+    { "department": "Finance" },
+    { "department": "Marketing" },
+    { "department": "Sales" },
+    { "department": "Customer Support" },
+    { "department": "Operations" },
+    { "department": "Legal" }
+  ]
+}
