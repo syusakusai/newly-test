@@ -326,7 +326,10 @@
       <div class="w-40">
         <label class="block text-xs text-gray-500">Basic Salary</label>
         <div class="px-3 py-2 border rounded text-sm bg-gray-100">
-          {{ selectedEmployee?.basicSalary }}
+          {{
+            selectedEmployee?.basicSalary
+              | currency : "IDR" : "symbol" : "1.0-0" : "id-ID"
+          }}
         </div>
       </div>
       <div class="w-40">
